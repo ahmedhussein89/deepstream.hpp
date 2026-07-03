@@ -1,7 +1,11 @@
 #pragma once
 #include <optional>
 
+// gstnvdsinfer.h has no include guards — wrap with a manual idempotency guard.
+#ifndef DEEPSTREAM_HPP_GSTNVDSINFER_INCLUDED
+#define DEEPSTREAM_HPP_GSTNVDSINFER_INCLUDED
 #include <gstnvdsinfer.h>
+#endif
 #include <nvdsmeta.h>
 
 #include <metadata/tensor_meta.hpp>
