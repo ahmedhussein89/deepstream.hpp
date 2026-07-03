@@ -5,14 +5,15 @@
 
 #include <builder.hpp>
 #include <elements.hpp>
+#include <gstreamer_raii.hpp>
 
 namespace {
 
-// Helper: wrap a raw GstElement* in a gst::Element for use with the builder
-gst::Element make_raw(const char* factory) {
+// Helper: wrap a raw GstElement* in a gst::raii::Element for use with the builder
+gst::raii::Element make_raw(const char* factory) {
   GstElement* e = gst_element_factory_make(factory, nullptr);
   EXPECT_NE(e, nullptr) << "Factory '" << factory << "' not available";
-  return gst::Element{e};
+  return gst::raii::Element{e};
 }
 
 // ============================================================================
@@ -51,8 +52,8 @@ TEST(BuilderTest, EmptyAfterBuildFails) {
 
 TEST(BuilderTest, DuplicateElementNameFails) {
   auto result = ds::Builder{}
-                    .add(gst::Element{gst_element_factory_make("fakesrc", "same-name")})
-                    .add(gst::Element{gst_element_factory_make("fakesink", "same-name")})
+                    .add(gst::raii::Element{gst_element_factory_make("fakesrc", "same-name")})
+                    .add(gst::raii::Element{gst_element_factory_make("fakesink", "same-name")})
                     .build();
   EXPECT_FALSE(result.has_value());
   EXPECT_NE(result.error().find("same-name"), std::string::npos);
@@ -60,8 +61,8 @@ TEST(BuilderTest, DuplicateElementNameFails) {
 
 TEST(BuilderTest, DifferentNamesSucceed) {
   auto result = ds::Builder{}
-                    .add(gst::Element{gst_element_factory_make("fakesrc", "src-a")})
-                    .add(gst::Element{gst_element_factory_make("fakesink", "sink-b")})
+                    .add(gst::raii::Element{gst_element_factory_make("fakesrc", "src-a")})
+                    .add(gst::raii::Element{gst_element_factory_make("fakesink", "sink-b")})
                     .build();
   EXPECT_TRUE(result.has_value());
 }

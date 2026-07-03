@@ -8,7 +8,7 @@
 
 #include <nonstd/expected.hpp>
 
-#include <gstreamer.hpp>
+#include <gstreamer_raii.hpp>
 #include <utils/debug.hpp>
 #include <utils/error.hpp>
 
@@ -125,7 +125,7 @@ public:
     return *this;
   }
 
-  [[nodiscard]] nonstd::expected<gst::Pipeline, PipelineError> build() {
+  [[nodiscard]] nonstd::expected<gst::raii::Pipeline, PipelineError> build() {
     // Mandatory: at least one element
     if(elements_.empty()) {
       const auto msg = std::string("Pipeline must contain at least one element");
@@ -184,7 +184,7 @@ public:
       }
     }
 
-    return gst::Pipeline{raw_pipeline};
+    return gst::raii::Pipeline{raw_pipeline};
   }
 
 private:

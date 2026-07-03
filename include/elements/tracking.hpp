@@ -7,7 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
-#include <gstreamer.hpp>
+#include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
 namespace ds {
@@ -19,7 +19,7 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvtracker' element"});
     }
-    return Tracker{gst::Element{raw}};
+    return Tracker{gst::raii::Element{raw}};
   }
 
   Tracker& lib_file(std::string_view path) {
@@ -53,8 +53,8 @@ public:
   Tracker& operator=(const Tracker&) = delete;
 
 private:
-  explicit Tracker(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit Tracker(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 }    // namespace ds

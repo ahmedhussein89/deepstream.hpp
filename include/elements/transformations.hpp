@@ -7,7 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
-#include <gstreamer.hpp>
+#include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
 namespace ds {
@@ -19,7 +19,7 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvstreammux' element"});
     }
-    return StreamMux{gst::Element{raw}};
+    return StreamMux{gst::raii::Element{raw}};
   }
 
   StreamMux& batch_size(std::uint32_t size) {
@@ -63,8 +63,8 @@ public:
   StreamMux& operator=(const StreamMux&) = delete;
 
 private:
-  explicit StreamMux(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit StreamMux(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 class VideoConverter {
@@ -74,7 +74,7 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvvideoconvert' element"});
     }
-    return VideoConverter{gst::Element{raw}};
+    return VideoConverter{gst::raii::Element{raw}};
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
@@ -88,8 +88,8 @@ public:
   VideoConverter& operator=(const VideoConverter&) = delete;
 
 private:
-  explicit VideoConverter(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit VideoConverter(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 class OSD {
@@ -99,7 +99,7 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvdsosd' element"});
     }
-    return OSD{gst::Element{raw}};
+    return OSD{gst::raii::Element{raw}};
   }
 
   OSD& process_mode(std::int32_t mode) {
@@ -133,8 +133,8 @@ public:
   OSD& operator=(const OSD&) = delete;
 
 private:
-  explicit OSD(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit OSD(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 }    // namespace ds
