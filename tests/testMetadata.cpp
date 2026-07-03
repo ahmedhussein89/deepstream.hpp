@@ -3,7 +3,7 @@
 #include <glib.h>
 #include <gtest/gtest.h>
 
-#include <metadata.hpp>
+#include <deepstream.hpp>
 
 // ============================================================================
 // Helpers — build a GList (NvDsMetaList) from stack-allocated nodes

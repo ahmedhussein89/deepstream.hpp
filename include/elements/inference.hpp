@@ -26,7 +26,7 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvinfer' element"});
     }
-    detail::set_property(raw, "process-mode", static_cast<gint>(1));
+    detail::set_property(raw, "process-mode", 1);
     return PrimaryInfer{gst::raii::Element{raw}};
   }
 
@@ -79,7 +79,7 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvinfer' element"});
     }
-    detail::set_property(raw, "process-mode", static_cast<gint>(2));
+    detail::set_property(raw, "process-mode", 2);
     return SecondaryInfer{gst::raii::Element{raw}};
   }
 
@@ -99,7 +99,7 @@ public:
   }
 
   SecondaryInfer& infer_on_id(std::uint32_t gie_id) {
-    detail::set_property(mElement.get(), "infer-on-gie-id", static_cast<gint>(gie_id));
+    detail::set_property(mElement.get(), "infer-on-gie-id", static_cast<int>(gie_id));
     return *this;
   }
 
@@ -140,7 +140,7 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvinferserver' element"});
     }
-    detail::set_property(raw, "process-mode", static_cast<gint>(mode));
+    detail::set_property(raw, "process-mode", static_cast<int>(mode));
     return InferServer{gst::raii::Element{raw}};
   }
 
@@ -157,7 +157,7 @@ public:
     return *this;
   }
   InferServer& infer_on_id(std::uint32_t gie_id) {
-    detail::set_property(mElement.get(), "infer-on-gie-id", static_cast<gint>(gie_id));
+    detail::set_property(mElement.get(), "infer-on-gie-id", static_cast<int>(gie_id));
     return *this;
   }
 

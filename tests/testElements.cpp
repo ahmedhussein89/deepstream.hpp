@@ -3,7 +3,7 @@
 #include <gst/gst.h>
 #include <gtest/gtest.h>
 
-#include <elements.hpp>
+#include <deepstream_raii.hpp>
 
 namespace {
 

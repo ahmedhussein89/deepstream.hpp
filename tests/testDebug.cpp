@@ -5,9 +5,8 @@
 #include <gst/gst.h>
 #include <gtest/gtest.h>
 
-#include <builder.hpp>
+#include <deepstream_raii.hpp>
 #include <gstreamer_raii.hpp>
-#include <elements.hpp>
 #include <utils/debug.hpp>
 #include <utils/error.hpp>
 
