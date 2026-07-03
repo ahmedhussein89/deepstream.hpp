@@ -12,6 +12,13 @@
 
 namespace ds {
 
+struct TrackerConfig {
+  std::string   lib_file;
+  std::string   config_file;
+  std::uint32_t tracker_width{640};
+  std::uint32_t tracker_height{384};
+};
+
 class Tracker {
 public:
   [[nodiscard]] static nonstd::expected<Tracker, ElementError> create(std::string_view name = {}) {
@@ -40,6 +47,21 @@ public:
   Tracker& tracker_height(std::uint32_t h) {
     g_object_set(G_OBJECT(mElement.get()), "tracker-height", static_cast<guint>(h), nullptr);
     return *this;
+  }
+
+  [[nodiscard]] static nonstd::expected<Tracker, ElementError> create(const TrackerConfig& cfg, std::string_view name = {}) {
+    auto result = create(name);
+    if(!result) {
+      return result;
+    }
+    if(!cfg.lib_file.empty()) {
+      result->lib_file(cfg.lib_file);
+    }
+    if(!cfg.config_file.empty()) {
+      result->config_file(cfg.config_file);
+    }
+    result->tracker_width(cfg.tracker_width).tracker_height(cfg.tracker_height);
+    return result;
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
