@@ -6,6 +6,7 @@
 #include <gtest/gtest.h>
 
 #include <builder.hpp>
+#include <gstreamer_raii.hpp>
 #include <elements.hpp>
 #include <utils/debug.hpp>
 #include <utils/error.hpp>
@@ -222,8 +223,8 @@ TEST(DebugLayerBuilderTest, DuplicateNameDispatchesCallback) {
   ds::DebugLayer::instance().set_callback([&received](const ds::DebugMessage& m) { received.push_back(m); });
 
   auto result = ds::Builder{}
-                    .add(gst::Element{gst_element_factory_make("fakesrc", "dup")})
-                    .add(gst::Element{gst_element_factory_make("fakesink", "dup")})
+                    .add(gst::raii::Element{gst_element_factory_make("fakesrc", "dup")})
+                    .add(gst::raii::Element{gst_element_factory_make("fakesink", "dup")})
                     .build();
 
   EXPECT_FALSE(result.has_value());
@@ -244,7 +245,7 @@ TEST(DebugLayerBuilderTest, IncompatibleCapsDispatchesCallback) {
   ASSERT_NE(audio, nullptr);
   ASSERT_NE(video, nullptr);
 
-  auto result = ds::Builder{}.add(gst::Element{audio}).add(gst::Element{video}).build();
+  auto result = ds::Builder{}.add(gst::raii::Element{audio}).add(gst::raii::Element{video}).build();
 
   EXPECT_FALSE(result.has_value());
   EXPECT_EQ(result.error().kind, ds::ErrorKind::IncompatibleCaps);

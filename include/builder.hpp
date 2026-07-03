@@ -8,7 +8,8 @@
 
 #include <nonstd/expected.hpp>
 
-#include <gstreamer.hpp>
+#include <core/concepts.hpp>
+#include <gstreamer_raii.hpp>
 #include <utils/debug.hpp>
 #include <utils/error.hpp>
 
@@ -112,9 +113,7 @@ public:
   Builder(const Builder&) = delete;
   Builder& operator=(const Builder&) = delete;
 
-  // Accepts any element type that exposes get() -> GstElement* and release() -> GstElement*.
-  // This covers all ds:: typed elements and gst::Element directly.
-  template <typename T>
+  template <DsElement T>
   Builder& add(T&& element) {
     const std::string name = detail::element_name(element.get());
     if(!name.empty() && !names_.insert(name).second && first_duplicate_.empty()) {
@@ -125,7 +124,7 @@ public:
     return *this;
   }
 
-  [[nodiscard]] nonstd::expected<gst::Pipeline, PipelineError> build() {
+  [[nodiscard]] nonstd::expected<gst::raii::Pipeline, PipelineError> build() {
     // Mandatory: at least one element
     if(elements_.empty()) {
       const auto msg = std::string("Pipeline must contain at least one element");
@@ -184,7 +183,7 @@ public:
       }
     }
 
-    return gst::Pipeline{raw_pipeline};
+    return gst::raii::Pipeline{raw_pipeline};
   }
 
 private:

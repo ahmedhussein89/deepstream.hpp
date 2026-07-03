@@ -155,28 +155,18 @@ if(DeepStream_ROOT_DIR)
 endif()
 
 # Find required system dependencies
-# GStreamer is required for DeepStream
-find_package(PkgConfig QUIET)
-if(PkgConfig_FOUND)
-    pkg_check_modules(GSTREAMER gstreamer-1.0>=1.14)
-    pkg_check_modules(GSTREAMER_BASE gstreamer-base-1.0>=1.14)
-    pkg_check_modules(GSTREAMER_VIDEO gstreamer-video-1.0>=1.14)
-    pkg_check_modules(GSTREAMER_RTSP_SERVER gstreamer-rtsp-server-1.0)
-    
-    if(NOT GSTREAMER_FOUND)
-        if(NOT DeepStream_FIND_QUIETLY)
-            message(WARNING "GStreamer not found. DeepStream requires GStreamer >= 1.14")
-        endif()
-    endif()
-    
-    if(NOT GSTREAMER_RTSP_SERVER_FOUND)
-        if(NOT DeepStream_FIND_QUIETLY)
-            message(WARNING "GStreamer RTSP Server not found. Some DeepStream features may not work.")
-        endif()
-    endif()
-else()
+# GStreamer is required for DeepStream — resolved via FindGStreamer.cmake.
+find_package(GStreamer QUIET COMPONENTS Base Video RtspServer)
+
+if(NOT GStreamer_FOUND)
     if(NOT DeepStream_FIND_QUIETLY)
-        message(WARNING "PkgConfig not found. Cannot verify GStreamer dependency.")
+        message(WARNING "GStreamer not found. DeepStream requires GStreamer >= 1.14")
+    endif()
+endif()
+
+if(NOT GStreamer_RtspServer_FOUND)
+    if(NOT DeepStream_FIND_QUIETLY)
+        message(WARNING "GStreamer RtspServer not found. Some DeepStream features may not work.")
     endif()
 endif()# CUDA is required for DeepStream
 find_package(CUDAToolkit QUIET)
@@ -241,13 +231,13 @@ foreach(_lib_dep ${_DEEPSTREAM_LIBRARY_DEPENDENCIES})
             endforeach()
 
             # Add GStreamer if available
-            if(GSTREAMER_FOUND)
-                list(APPEND _interface_libs ${GSTREAMER_LIBRARIES})
+            if(GStreamer_FOUND)
+                list(APPEND _interface_libs GStreamer::GStreamer)
             endif()
-            
-            # Add GStreamer RTSP Server if available
-            if(GSTREAMER_RTSP_SERVER_FOUND)
-                list(APPEND _interface_libs ${GSTREAMER_RTSP_SERVER_LIBRARIES})
+
+            # Add GStreamer RtspServer if available
+            if(GStreamer_RtspServer_FOUND)
+                list(APPEND _interface_libs GStreamer::RtspServer)
             endif()
 
             # Add CUDA if available
@@ -273,19 +263,8 @@ foreach(_lib_dep ${_DEEPSTREAM_LIBRARY_DEPENDENCIES})
                 )
             endif()
 
-            # Add GStreamer include directories if found
-            if(GSTREAMER_FOUND)
-                set_property(TARGET DeepStream::${_lib} APPEND PROPERTY
-                    INTERFACE_INCLUDE_DIRECTORIES "${GSTREAMER_INCLUDE_DIRS}"
-                )
-            endif()
-            
-            # Add GStreamer RTSP Server include directories if found
-            if(GSTREAMER_RTSP_SERVER_FOUND)
-                set_property(TARGET DeepStream::${_lib} APPEND PROPERTY
-                    INTERFACE_INCLUDE_DIRECTORIES "${GSTREAMER_RTSP_SERVER_INCLUDE_DIRS}"
-                )
-            endif()
+            # GStreamer include directories flow in transitively via
+            # GStreamer::GStreamer / GStreamer::RtspServer INTERFACE_INCLUDE_DIRECTORIES.
         endif()
 
         mark_as_advanced(DeepStream_${_lib}_LIBRARY)
@@ -396,24 +375,15 @@ if(DeepStream_FOUND AND NOT _CORE_LIBS_MISSING)
             INTERFACE_LINK_LIBRARIES "${_all_targets}"
         )
 
-        # Add GStreamer to the interface target
-        if(GSTREAMER_FOUND)
+        # GStreamer targets carry their own include dirs transitively.
+        if(GStreamer_FOUND)
             set_property(TARGET DeepStream::DeepStream APPEND PROPERTY
-                INTERFACE_INCLUDE_DIRECTORIES "${GSTREAMER_INCLUDE_DIRS}"
-            )
-            set_property(TARGET DeepStream::DeepStream APPEND PROPERTY
-                INTERFACE_LINK_LIBRARIES "${GSTREAMER_LIBRARIES}"
-            )
+                INTERFACE_LINK_LIBRARIES GStreamer::GStreamer)
         endif()
-        
-        # Add GStreamer RTSP Server to the interface target
-        if(GSTREAMER_RTSP_SERVER_FOUND)
+
+        if(GStreamer_RtspServer_FOUND)
             set_property(TARGET DeepStream::DeepStream APPEND PROPERTY
-                INTERFACE_INCLUDE_DIRECTORIES "${GSTREAMER_RTSP_SERVER_INCLUDE_DIRS}"
-            )
-            set_property(TARGET DeepStream::DeepStream APPEND PROPERTY
-                INTERFACE_LINK_LIBRARIES "${GSTREAMER_RTSP_SERVER_LIBRARIES}"
-            )
+                INTERFACE_LINK_LIBRARIES GStreamer::RtspServer)
         endif()
 
         # Set RPATH for executables linking against DeepStream
@@ -427,9 +397,6 @@ if(DeepStream_FOUND AND NOT _CORE_LIBS_MISSING)
 
     # Add to CMAKE_INSTALL_RPATH if building an executable
     list(APPEND CMAKE_INSTALL_RPATH "${DeepStream_LIBRARY_DIRS}")
-    if(GSTREAMER_FOUND AND GSTREAMER_LIBRARY_DIRS)
-        list(APPEND CMAKE_INSTALL_RPATH "${GSTREAMER_LIBRARY_DIRS}")
-    endif()
 else()
     set(DeepStream_FOUND FALSE)
 endif()
@@ -471,11 +438,11 @@ if(DeepStream_FOUND AND NOT DeepStream_FIND_QUIETLY)
         message(STATUS "  Libraries found: ${DeepStream_LIBRARIES}")
     endif()
 
-    if(GSTREAMER_FOUND)
-        message(STATUS "  GStreamer: ${GSTREAMER_VERSION}")
+    if(GStreamer_FOUND)
+        message(STATUS "  GStreamer: ${GStreamer_VERSION}")
     endif()
-    if(GSTREAMER_RTSP_SERVER_FOUND)
-        message(STATUS "  GStreamer RTSP Server: ${GSTREAMER_RTSP_SERVER_VERSION}")
+    if(GStreamer_RtspServer_FOUND)
+        message(STATUS "  GStreamer RtspServer: found")
     endif()
     if(CUDAToolkit_FOUND)
         message(STATUS "  CUDA: ${CUDAToolkit_VERSION}")

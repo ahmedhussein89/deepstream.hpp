@@ -1,6 +1,10 @@
 #pragma once
+#include <elements/auxiliary.hpp>
+#include <elements/encode.hpp>
 #include <elements/inference.hpp>
+#include <elements/messaging.hpp>
 #include <elements/sinks.hpp>
+#include <elements/smart_record.hpp>
 #include <elements/sources.hpp>
 #include <elements/tracking.hpp>
 #include <elements/transformations.hpp>

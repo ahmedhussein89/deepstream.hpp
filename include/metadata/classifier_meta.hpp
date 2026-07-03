@@ -13,7 +13,7 @@ public:
   explicit LabelInfoView(NvDsLabelInfo* info) : info_(info) {}
 
   [[nodiscard]] std::string_view label() const { return info_->result_label; }
-  [[nodiscard]] std::int32_t class_id() const { return info_->result_class_id; }
+  [[nodiscard]] std::uint32_t class_id() const { return info_->result_class_id; }
   [[nodiscard]] float probability() const { return info_->result_prob; }
   [[nodiscard]] std::uint32_t label_id() const { return info_->label_id; }
 

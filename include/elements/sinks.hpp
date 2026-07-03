@@ -7,7 +7,8 @@
 
 #include <nonstd/expected.hpp>
 
-#include <gstreamer.hpp>
+#include <elements/detail.hpp>
+#include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
 namespace ds {
@@ -19,11 +20,11 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nveglglessink' element"});
     }
-    return WindowSink{gst::Element{raw}};
+    return WindowSink{gst::raii::Element{raw}};
   }
 
   WindowSink& sync(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "sync", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "sync", static_cast<gboolean>(enable));
     return *this;
   }
 
@@ -38,8 +39,8 @@ public:
   WindowSink& operator=(const WindowSink&) = delete;
 
 private:
-  explicit WindowSink(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit WindowSink(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 class FileSink {
@@ -49,16 +50,16 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'filesink' element"});
     }
-    return FileSink{gst::Element{raw}};
+    return FileSink{gst::raii::Element{raw}};
   }
 
   FileSink& location(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "location", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "location", path);
     return *this;
   }
 
   FileSink& sync(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "sync", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "sync", static_cast<gboolean>(enable));
     return *this;
   }
 
@@ -73,8 +74,8 @@ public:
   FileSink& operator=(const FileSink&) = delete;
 
 private:
-  explicit FileSink(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit FileSink(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 }    // namespace ds
