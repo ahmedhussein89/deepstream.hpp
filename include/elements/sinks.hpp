@@ -7,7 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
-#include <gstreamer.hpp>
+#include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
 namespace ds {
@@ -19,7 +19,7 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nveglglessink' element"});
     }
-    return WindowSink{gst::Element{raw}};
+    return WindowSink{gst::raii::Element{raw}};
   }
 
   WindowSink& sync(bool enable) {
@@ -38,8 +38,8 @@ public:
   WindowSink& operator=(const WindowSink&) = delete;
 
 private:
-  explicit WindowSink(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit WindowSink(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 class FileSink {
@@ -49,7 +49,7 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'filesink' element"});
     }
-    return FileSink{gst::Element{raw}};
+    return FileSink{gst::raii::Element{raw}};
   }
 
   FileSink& location(std::string_view path) {
@@ -73,8 +73,8 @@ public:
   FileSink& operator=(const FileSink&) = delete;
 
 private:
-  explicit FileSink(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit FileSink(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 }    // namespace ds

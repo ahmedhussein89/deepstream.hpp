@@ -7,7 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
-#include <gstreamer.hpp>
+#include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
 namespace ds {
@@ -20,7 +20,7 @@ public:
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvinfer' element"});
     }
     g_object_set(G_OBJECT(raw), "process-mode", 1, nullptr);
-    return PrimaryInfer{gst::Element{raw}};
+    return PrimaryInfer{gst::raii::Element{raw}};
   }
 
   PrimaryInfer& config_file(std::string_view path) {
@@ -49,8 +49,8 @@ public:
   PrimaryInfer& operator=(const PrimaryInfer&) = delete;
 
 private:
-  explicit PrimaryInfer(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit PrimaryInfer(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 class SecondaryInfer {
@@ -61,7 +61,7 @@ public:
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvinfer' element"});
     }
     g_object_set(G_OBJECT(raw), "process-mode", 2, nullptr);
-    return SecondaryInfer{gst::Element{raw}};
+    return SecondaryInfer{gst::raii::Element{raw}};
   }
 
   SecondaryInfer& config_file(std::string_view path) {
@@ -95,8 +95,8 @@ public:
   SecondaryInfer& operator=(const SecondaryInfer&) = delete;
 
 private:
-  explicit SecondaryInfer(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit SecondaryInfer(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 }    // namespace ds

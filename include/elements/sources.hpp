@@ -7,7 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
-#include <gstreamer.hpp>
+#include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
 namespace ds {
@@ -19,7 +19,7 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'filesrc' element"});
     }
-    return FileSource{gst::Element{raw}};
+    return FileSource{gst::raii::Element{raw}};
   }
 
   FileSource& location(std::string_view path) {
@@ -38,8 +38,8 @@ public:
   FileSource& operator=(const FileSource&) = delete;
 
 private:
-  explicit FileSource(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit FileSource(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 class RTSPSource {
@@ -49,7 +49,7 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'rtspsrc' element"});
     }
-    return RTSPSource{gst::Element{raw}};
+    return RTSPSource{gst::raii::Element{raw}};
   }
 
   RTSPSource& location(std::string_view url) {
@@ -78,8 +78,8 @@ public:
   RTSPSource& operator=(const RTSPSource&) = delete;
 
 private:
-  explicit RTSPSource(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit RTSPSource(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 class CameraSource {
@@ -89,7 +89,7 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'v4l2src' element"});
     }
-    return CameraSource{gst::Element{raw}};
+    return CameraSource{gst::raii::Element{raw}};
   }
 
   CameraSource& device(std::string_view path) {
@@ -108,8 +108,8 @@ public:
   CameraSource& operator=(const CameraSource&) = delete;
 
 private:
-  explicit CameraSource(gst::Element element) : mElement(std::move(element)) {}
-  gst::Element mElement;
+  explicit CameraSource(gst::raii::Element element) : mElement(std::move(element)) {}
+  gst::raii::Element mElement;
 };
 
 }    // namespace ds
