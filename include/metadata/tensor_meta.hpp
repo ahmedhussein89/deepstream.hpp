@@ -3,7 +3,11 @@
 #include <span>
 #include <string_view>
 
-#include <nvdsinfer.h>
+// gstnvdsinfer.h has no include guards — wrap with a manual idempotency guard.
+#ifndef DEEPSTREAM_HPP_GSTNVDSINFER_INCLUDED
+#define DEEPSTREAM_HPP_GSTNVDSINFER_INCLUDED
+#include <gstnvdsinfer.h>
+#endif
 
 namespace ds {
 
@@ -37,7 +41,7 @@ class TensorMetaView {
 public:
   explicit TensorMetaView(NvDsInferTensorMeta* meta) : meta_(meta) {}
 
-  [[nodiscard]] std::int32_t unique_id() const { return meta_->unique_id; }
+  [[nodiscard]] std::uint32_t unique_id() const { return meta_->unique_id; }
   [[nodiscard]] std::uint32_t num_output_layers() const { return meta_->num_output_layers; }
   [[nodiscard]] std::int32_t gpu_id() const { return meta_->gpu_id; }
 
