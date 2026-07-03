@@ -19,8 +19,10 @@ struct SmartRecord {
   // timeout_sec=0 means use the element's default duration.
   static void start(GstElement* urisrcbin, std::uint32_t source_id, std::uint32_t session_id,
                     std::string_view dir = {}, std::string_view prefix = {}, std::uint32_t timeout_sec = 0) {
-    const char* dir_c    = dir.empty() ? nullptr : std::string(dir).c_str();
-    const char* prefix_c = prefix.empty() ? nullptr : std::string(prefix).c_str();
+    const std::string dir_str(dir);
+    const std::string prefix_str(prefix);
+    const char*       dir_c    = dir.empty() ? nullptr : dir_str.c_str();
+    const char*       prefix_c = prefix.empty() ? nullptr : prefix_str.c_str();
     gpointer    ret      = nullptr;
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg, hicpp-vararg)
     g_signal_emit_by_name(G_OBJECT(urisrcbin), "start-sr", static_cast<guint>(source_id),
