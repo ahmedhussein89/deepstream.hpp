@@ -16,7 +16,7 @@ class SegVisual {
 public:
   [[nodiscard]] static nonstd::expected<SegVisual, ElementError> create(std::string_view name = {}) {
     GstElement* raw = gst_element_factory_make("nvsegvisual", name.empty() ? nullptr : std::string(name).c_str());
-    if(raw == nullptr) {
+    if(nullptr == raw) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvsegvisual' element"});
     }
     return SegVisual{gst::raii::Element{raw}};
@@ -57,7 +57,7 @@ class OpticalFlow {
 public:
   [[nodiscard]] static nonstd::expected<OpticalFlow, ElementError> create(std::string_view name = {}) {
     GstElement* raw = gst_element_factory_make("nvof", name.empty() ? nullptr : std::string(name).c_str());
-    if(raw == nullptr) {
+    if(nullptr == raw) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvof' element"});
     }
     return OpticalFlow{gst::raii::Element{raw}};
@@ -90,7 +90,7 @@ class OpticalFlowVisual {
 public:
   [[nodiscard]] static nonstd::expected<OpticalFlowVisual, ElementError> create(std::string_view name = {}) {
     GstElement* raw = gst_element_factory_make("nvofvisual", name.empty() ? nullptr : std::string(name).c_str());
-    if(raw == nullptr) {
+    if(nullptr == raw) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvofvisual' element"});
     }
     return OpticalFlowVisual{gst::raii::Element{raw}};
@@ -119,7 +119,7 @@ class Dewarper {
 public:
   [[nodiscard]] static nonstd::expected<Dewarper, ElementError> create(std::string_view name = {}) {
     GstElement* raw = gst_element_factory_make("nvdewarper", name.empty() ? nullptr : std::string(name).c_str());
-    if(raw == nullptr) {
+    if(nullptr == raw) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvdewarper' element"});
     }
     return Dewarper{gst::raii::Element{raw}};

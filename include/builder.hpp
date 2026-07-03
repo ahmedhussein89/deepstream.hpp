@@ -8,6 +8,7 @@
 
 #include <nonstd/expected.hpp>
 
+#include <core/concepts.hpp>
 #include <gstreamer_raii.hpp>
 #include <utils/debug.hpp>
 #include <utils/error.hpp>
@@ -112,9 +113,7 @@ public:
   Builder(const Builder&) = delete;
   Builder& operator=(const Builder&) = delete;
 
-  // Accepts any element type that exposes get() -> GstElement* and release() -> GstElement*.
-  // This covers all ds:: typed elements and gst::Element directly.
-  template <typename T>
+  template <DsElement T>
   Builder& add(T&& element) {
     const std::string name = detail::element_name(element.get());
     if(!name.empty() && !names_.insert(name).second && first_duplicate_.empty()) {

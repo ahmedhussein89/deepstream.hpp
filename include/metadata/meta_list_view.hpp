@@ -1,13 +1,20 @@
 #pragma once
+#include <concepts>
 #include <iterator>
 
 #include <nvdsmeta.h>
 
 namespace ds {
 
+// MetaView<View, Native>: View must be constructible from Native*, matching
+// the dereference contract of MetaListView's iterator.
+template <typename View, typename Native>
+concept MetaView = std::constructible_from<View, Native*>;
+
 // Generic forward-iterator range over NvDsMetaList (typedef for GList).
 // Constructs a View from each Native* node element on dereference.
 template <typename View, typename Native>
+  requires MetaView<View, Native>
 class MetaListView {
 public:
   struct Iterator {

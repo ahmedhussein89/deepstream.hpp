@@ -16,7 +16,7 @@ class H264Encoder {
 public:
   [[nodiscard]] static nonstd::expected<H264Encoder, ElementError> create(std::string_view name = {}) {
     GstElement* raw = gst_element_factory_make("nvv4l2h264enc", name.empty() ? nullptr : std::string(name).c_str());
-    if(raw == nullptr) {
+    if(nullptr == raw) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvv4l2h264enc' element"});
     }
     return H264Encoder{gst::raii::Element{raw}};
