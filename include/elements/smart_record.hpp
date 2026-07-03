@@ -22,6 +22,7 @@ struct SmartRecord {
     const char* dir_c    = dir.empty() ? nullptr : std::string(dir).c_str();
     const char* prefix_c = prefix.empty() ? nullptr : std::string(prefix).c_str();
     gpointer    ret      = nullptr;
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg, hicpp-vararg)
     g_signal_emit_by_name(G_OBJECT(urisrcbin), "start-sr", static_cast<guint>(source_id),
                           static_cast<guint>(session_id), dir_c, prefix_c, static_cast<guint>(timeout_sec),
                           nullptr, &ret);
@@ -30,6 +31,7 @@ struct SmartRecord {
   // Send "stop-sr" signal to stop recording for source_id/session_id.
   static void stop(GstElement* urisrcbin, std::uint32_t source_id, std::uint32_t session_id) {
     gpointer ret = nullptr;
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-vararg, hicpp-vararg)
     g_signal_emit_by_name(G_OBJECT(urisrcbin), "stop-sr", static_cast<guint>(source_id),
                           static_cast<guint>(session_id), nullptr, &ret);
   }

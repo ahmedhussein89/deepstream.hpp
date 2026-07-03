@@ -7,6 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
+#include <elements/detail.hpp>
 #include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
@@ -23,7 +24,7 @@ public:
   }
 
   WindowSink& sync(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "sync", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "sync", static_cast<gboolean>(enable));
     return *this;
   }
 
@@ -53,12 +54,12 @@ public:
   }
 
   FileSink& location(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "location", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "location", path);
     return *this;
   }
 
   FileSink& sync(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "sync", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "sync", static_cast<gboolean>(enable));
     return *this;
   }
 

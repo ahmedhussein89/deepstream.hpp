@@ -7,6 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
+#include <elements/detail.hpp>
 #include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
@@ -23,14 +24,14 @@ public:
   }
 
   FileSource& location(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "location", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "location", path);
     return *this;
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
 
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   FileSource(FileSource&&) = default;
   FileSource& operator=(FileSource&&) = default;
@@ -53,24 +54,24 @@ public:
   }
 
   RTSPSource& location(std::string_view url) {
-    g_object_set(G_OBJECT(mElement.get()), "location", std::string(url).c_str(), nullptr);
+    detail::set_property(mElement.get(), "location", url);
     return *this;
   }
 
   RTSPSource& latency(std::uint32_t ms) {
-    g_object_set(G_OBJECT(mElement.get()), "latency", static_cast<guint>(ms), nullptr);
+    detail::set_property(mElement.get(), "latency", static_cast<guint>(ms));
     return *this;
   }
 
   RTSPSource& protocols(std::uint32_t flags) {
-    g_object_set(G_OBJECT(mElement.get()), "protocols", static_cast<guint>(flags), nullptr);
+    detail::set_property(mElement.get(), "protocols", static_cast<guint>(flags));
     return *this;
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
 
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   RTSPSource(RTSPSource&&) = default;
   RTSPSource& operator=(RTSPSource&&) = default;
@@ -93,14 +94,14 @@ public:
   }
 
   CameraSource& device(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "device", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "device", path);
     return *this;
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
 
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   CameraSource(CameraSource&&) = default;
   CameraSource& operator=(CameraSource&&) = default;
@@ -123,54 +124,54 @@ public:
     return UriSource{gst::raii::Element{raw}};
   }
 
-  UriSource& uri(std::string_view u) {
-    g_object_set(G_OBJECT(mElement.get()), "uri", std::string(u).c_str(), nullptr);
+  UriSource& uri(std::string_view uri_str) {
+    detail::set_property(mElement.get(), "uri", uri_str);
     return *this;
   }
   UriSource& gpu_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "gpu-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "gpu-id", static_cast<guint>(id));
     return *this;
   }
-  UriSource& num_extra_surfaces(std::uint32_t n) {
-    g_object_set(G_OBJECT(mElement.get()), "num-extra-surfaces", static_cast<guint>(n), nullptr);
+  UriSource& num_extra_surfaces(std::uint32_t count) {
+    detail::set_property(mElement.get(), "num-extra-surfaces", static_cast<guint>(count));
     return *this;
   }
   UriSource& drop_frame_interval(std::uint32_t interval) {
-    g_object_set(G_OBJECT(mElement.get()), "drop-frame-interval", static_cast<guint>(interval), nullptr);
+    detail::set_property(mElement.get(), "drop-frame-interval", static_cast<guint>(interval));
     return *this;
   }
   UriSource& rtsp_reconnect_interval_sec(std::uint32_t sec) {
-    g_object_set(G_OBJECT(mElement.get()), "rtsp-reconnect-interval", static_cast<guint>(sec), nullptr);
+    detail::set_property(mElement.get(), "rtsp-reconnect-interval", static_cast<guint>(sec));
     return *this;
   }
   UriSource& source_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "source-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "source-id", static_cast<guint>(id));
     return *this;
   }
   UriSource& file_loop(bool loop) {
-    g_object_set(G_OBJECT(mElement.get()), "file-loop", static_cast<gboolean>(loop), nullptr);
+    detail::set_property(mElement.get(), "file-loop", static_cast<gboolean>(loop));
     return *this;
   }
   UriSource& smart_record(std::uint32_t mode) {
-    g_object_set(G_OBJECT(mElement.get()), "smart-record", static_cast<guint>(mode), nullptr);
+    detail::set_property(mElement.get(), "smart-record", static_cast<guint>(mode));
     return *this;
   }
   UriSource& smart_rec_dir_path(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "smart-rec-dir-path", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "smart-rec-dir-path", path);
     return *this;
   }
   UriSource& smart_rec_file_prefix(std::string_view prefix) {
-    g_object_set(G_OBJECT(mElement.get()), "smart-rec-file-prefix", std::string(prefix).c_str(), nullptr);
+    detail::set_property(mElement.get(), "smart-rec-file-prefix", prefix);
     return *this;
   }
   UriSource& smart_rec_def_duration(std::uint32_t seconds) {
-    g_object_set(G_OBJECT(mElement.get()), "smart-rec-def-duration", static_cast<guint>(seconds), nullptr);
+    detail::set_property(mElement.get(), "smart-rec-def-duration", static_cast<guint>(seconds));
     return *this;
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   UriSource(UriSource&&) = default;
   UriSource& operator=(UriSource&&) = default;
@@ -193,45 +194,45 @@ public:
   }
 
   MultiUriSource& uri_list(std::string_view uris) {
-    g_object_set(G_OBJECT(mElement.get()), "uri-list", std::string(uris).c_str(), nullptr);
+    detail::set_property(mElement.get(), "uri-list", uris);
     return *this;
   }
   MultiUriSource& gpu_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "gpu-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "gpu-id", static_cast<guint>(id));
     return *this;
   }
   MultiUriSource& batch_size(std::uint32_t size) {
-    g_object_set(G_OBJECT(mElement.get()), "batch-size", static_cast<guint>(size), nullptr);
+    detail::set_property(mElement.get(), "batch-size", static_cast<guint>(size));
     return *this;
   }
-  MultiUriSource& width(std::uint32_t w) {
-    g_object_set(G_OBJECT(mElement.get()), "width", static_cast<guint>(w), nullptr);
+  MultiUriSource& width(std::uint32_t val) {
+    detail::set_property(mElement.get(), "width", static_cast<guint>(val));
     return *this;
   }
-  MultiUriSource& height(std::uint32_t h) {
-    g_object_set(G_OBJECT(mElement.get()), "height", static_cast<guint>(h), nullptr);
+  MultiUriSource& height(std::uint32_t val) {
+    detail::set_property(mElement.get(), "height", static_cast<guint>(val));
     return *this;
   }
-  MultiUriSource& num_extra_surfaces(std::uint32_t n) {
-    g_object_set(G_OBJECT(mElement.get()), "num-extra-surfaces", static_cast<guint>(n), nullptr);
+  MultiUriSource& num_extra_surfaces(std::uint32_t count) {
+    detail::set_property(mElement.get(), "num-extra-surfaces", static_cast<guint>(count));
     return *this;
   }
   MultiUriSource& drop_frame_interval(std::uint32_t interval) {
-    g_object_set(G_OBJECT(mElement.get()), "drop-frame-interval", static_cast<guint>(interval), nullptr);
+    detail::set_property(mElement.get(), "drop-frame-interval", static_cast<guint>(interval));
     return *this;
   }
   MultiUriSource& live_source(bool live) {
-    g_object_set(G_OBJECT(mElement.get()), "live-source", static_cast<gboolean>(live), nullptr);
+    detail::set_property(mElement.get(), "live-source", static_cast<gboolean>(live));
     return *this;
   }
   MultiUriSource& batched_push_timeout(std::int32_t timeout_us) {
-    g_object_set(G_OBJECT(mElement.get()), "batched-push-timeout", static_cast<gint>(timeout_us), nullptr);
+    detail::set_property(mElement.get(), "batched-push-timeout", static_cast<gint>(timeout_us));
     return *this;
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   MultiUriSource(MultiUriSource&&) = default;
   MultiUriSource& operator=(MultiUriSource&&) = default;
@@ -254,25 +255,25 @@ public:
   }
 
   V4L2Decoder& gpu_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "gpu-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "gpu-id", static_cast<guint>(id));
     return *this;
   }
-  V4L2Decoder& num_extra_surfaces(std::uint32_t n) {
-    g_object_set(G_OBJECT(mElement.get()), "num-extra-surfaces", static_cast<guint>(n), nullptr);
+  V4L2Decoder& num_extra_surfaces(std::uint32_t count) {
+    detail::set_property(mElement.get(), "num-extra-surfaces", static_cast<guint>(count));
     return *this;
   }
   V4L2Decoder& drop_frame_interval(std::uint32_t interval) {
-    g_object_set(G_OBJECT(mElement.get()), "drop-frame-interval", static_cast<guint>(interval), nullptr);
+    detail::set_property(mElement.get(), "drop-frame-interval", static_cast<guint>(interval));
     return *this;
   }
   V4L2Decoder& enable_full_frame(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "enable-full-frame", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "enable-full-frame", static_cast<gboolean>(enable));
     return *this;
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   V4L2Decoder(V4L2Decoder&&) = default;
   V4L2Decoder& operator=(V4L2Decoder&&) = default;

@@ -7,6 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
+#include <elements/detail.hpp>
 #include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
@@ -23,31 +24,31 @@ public:
   }
 
   H264Encoder& bitrate(std::uint32_t bps) {
-    g_object_set(G_OBJECT(mElement.get()), "bitrate", static_cast<guint>(bps), nullptr);
+    detail::set_property(mElement.get(), "bitrate", static_cast<guint>(bps));
     return *this;
   }
   H264Encoder& iframeinterval(std::uint32_t interval) {
-    g_object_set(G_OBJECT(mElement.get()), "iframeinterval", static_cast<guint>(interval), nullptr);
+    detail::set_property(mElement.get(), "iframeinterval", static_cast<guint>(interval));
     return *this;
   }
-  H264Encoder& profile(std::uint32_t p) {
-    g_object_set(G_OBJECT(mElement.get()), "profile", static_cast<guint>(p), nullptr);
+  H264Encoder& profile(std::uint32_t val) {
+    detail::set_property(mElement.get(), "profile", static_cast<guint>(val));
     return *this;
   }
   H264Encoder& preset_level(std::uint32_t level) {
-    g_object_set(G_OBJECT(mElement.get()), "preset-level", static_cast<guint>(level), nullptr);
+    detail::set_property(mElement.get(), "preset-level", static_cast<guint>(level));
     return *this;
   }
   H264Encoder& insert_sps_pps(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "insert-sps-pps", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "insert-sps-pps", static_cast<gboolean>(enable));
     return *this;
   }
   H264Encoder& control_rate(std::uint32_t mode) {
-    g_object_set(G_OBJECT(mElement.get()), "control-rate", static_cast<guint>(mode), nullptr);
+    detail::set_property(mElement.get(), "control-rate", static_cast<guint>(mode));
     return *this;
   }
   H264Encoder& gpu_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "gpu-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "gpu-id", static_cast<guint>(id));
     return *this;
   }
 
@@ -76,31 +77,31 @@ public:
   }
 
   H265Encoder& bitrate(std::uint32_t bps) {
-    g_object_set(G_OBJECT(mElement.get()), "bitrate", static_cast<guint>(bps), nullptr);
+    detail::set_property(mElement.get(), "bitrate", static_cast<guint>(bps));
     return *this;
   }
   H265Encoder& iframeinterval(std::uint32_t interval) {
-    g_object_set(G_OBJECT(mElement.get()), "iframeinterval", static_cast<guint>(interval), nullptr);
+    detail::set_property(mElement.get(), "iframeinterval", static_cast<guint>(interval));
     return *this;
   }
-  H265Encoder& profile(std::uint32_t p) {
-    g_object_set(G_OBJECT(mElement.get()), "profile", static_cast<guint>(p), nullptr);
+  H265Encoder& profile(std::uint32_t val) {
+    detail::set_property(mElement.get(), "profile", static_cast<guint>(val));
     return *this;
   }
   H265Encoder& preset_level(std::uint32_t level) {
-    g_object_set(G_OBJECT(mElement.get()), "preset-level", static_cast<guint>(level), nullptr);
+    detail::set_property(mElement.get(), "preset-level", static_cast<guint>(level));
     return *this;
   }
   H265Encoder& insert_vps_sps_pps(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "insert-vps-sps-pps", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "insert-vps-sps-pps", static_cast<gboolean>(enable));
     return *this;
   }
   H265Encoder& control_rate(std::uint32_t mode) {
-    g_object_set(G_OBJECT(mElement.get()), "control-rate", static_cast<guint>(mode), nullptr);
+    detail::set_property(mElement.get(), "control-rate", static_cast<guint>(mode));
     return *this;
   }
   H265Encoder& gpu_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "gpu-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "gpu-id", static_cast<guint>(id));
     return *this;
   }
 
@@ -128,24 +129,24 @@ public:
     return RtspOutSink{gst::raii::Element{raw}};
   }
 
-  RtspOutSink& host(std::string_view h) {
-    g_object_set(G_OBJECT(mElement.get()), "host", std::string(h).c_str(), nullptr);
+  RtspOutSink& host(std::string_view hostname) {
+    detail::set_property(mElement.get(), "host", hostname);
     return *this;
   }
-  RtspOutSink& port(std::uint32_t p) {
-    g_object_set(G_OBJECT(mElement.get()), "port", static_cast<guint>(p), nullptr);
+  RtspOutSink& port(std::uint32_t port_num) {
+    detail::set_property(mElement.get(), "port", static_cast<guint>(port_num));
     return *this;
   }
   RtspOutSink& udp_buffer_size(std::uint32_t bytes) {
-    g_object_set(G_OBJECT(mElement.get()), "udp-buffer-size", static_cast<guint>(bytes), nullptr);
+    detail::set_property(mElement.get(), "udp-buffer-size", static_cast<guint>(bytes));
     return *this;
   }
   RtspOutSink& sync(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "sync", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "sync", static_cast<gboolean>(enable));
     return *this;
   }
   RtspOutSink& async(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "async", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "async", static_cast<gboolean>(enable));
     return *this;
   }
 
@@ -174,15 +175,15 @@ public:
   }
 
   FakeSink& sync(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "sync", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "sync", static_cast<gboolean>(enable));
     return *this;
   }
   FakeSink& async(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "async", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "async", static_cast<gboolean>(enable));
     return *this;
   }
   FakeSink& signal_handoffs(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "signal-handoffs", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "signal-handoffs", static_cast<gboolean>(enable));
     return *this;
   }
 

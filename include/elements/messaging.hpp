@@ -7,6 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
+#include <elements/detail.hpp>
 #include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
@@ -23,19 +24,19 @@ public:
   }
 
   MsgConv& config(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "config", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "config", path);
     return *this;
   }
   MsgConv& sensor_id(std::int32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "sensor-id", static_cast<gint>(id), nullptr);
+    detail::set_property(mElement.get(), "sensor-id", static_cast<gint>(id));
     return *this;
   }
   MsgConv& payload_type(std::uint32_t type) {
-    g_object_set(G_OBJECT(mElement.get()), "payload-type", static_cast<guint>(type), nullptr);
+    detail::set_property(mElement.get(), "payload-type", static_cast<guint>(type));
     return *this;
   }
   MsgConv& comp_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "comp-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "comp-id", static_cast<guint>(id));
     return *this;
   }
 
@@ -64,27 +65,27 @@ public:
   }
 
   MsgBroker& proto_lib(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "proto-lib", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "proto-lib", path);
     return *this;
   }
   MsgBroker& conn_str(std::string_view connection) {
-    g_object_set(G_OBJECT(mElement.get()), "conn-str", std::string(connection).c_str(), nullptr);
+    detail::set_property(mElement.get(), "conn-str", connection);
     return *this;
   }
-  MsgBroker& topic(std::string_view t) {
-    g_object_set(G_OBJECT(mElement.get()), "topic", std::string(t).c_str(), nullptr);
+  MsgBroker& topic(std::string_view topic_name) {
+    detail::set_property(mElement.get(), "topic", topic_name);
     return *this;
   }
   MsgBroker& config(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "config", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "config", path);
     return *this;
   }
   MsgBroker& sync(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "sync", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "sync", static_cast<gboolean>(enable));
     return *this;
   }
   MsgBroker& async(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "async", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "async", static_cast<gboolean>(enable));
     return *this;
   }
 

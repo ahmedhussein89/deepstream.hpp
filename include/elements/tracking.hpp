@@ -7,6 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
+#include <elements/detail.hpp>
 #include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
@@ -30,22 +31,22 @@ public:
   }
 
   Tracker& lib_file(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "ll-lib-file", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "ll-lib-file", path);
     return *this;
   }
 
   Tracker& config_file(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "ll-config-file", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "ll-config-file", path);
     return *this;
   }
 
-  Tracker& tracker_width(std::uint32_t w) {
-    g_object_set(G_OBJECT(mElement.get()), "tracker-width", static_cast<guint>(w), nullptr);
+  Tracker& tracker_width(std::uint32_t val) {
+    detail::set_property(mElement.get(), "tracker-width", static_cast<guint>(val));
     return *this;
   }
 
-  Tracker& tracker_height(std::uint32_t h) {
-    g_object_set(G_OBJECT(mElement.get()), "tracker-height", static_cast<guint>(h), nullptr);
+  Tracker& tracker_height(std::uint32_t val) {
+    detail::set_property(mElement.get(), "tracker-height", static_cast<guint>(val));
     return *this;
   }
 

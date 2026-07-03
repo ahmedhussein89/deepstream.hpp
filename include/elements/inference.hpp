@@ -7,6 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
+#include <elements/detail.hpp>
 #include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
@@ -25,22 +26,22 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvinfer' element"});
     }
-    g_object_set(G_OBJECT(raw), "process-mode", 1, nullptr);
+    detail::set_property(raw, "process-mode", static_cast<gint>(1));
     return PrimaryInfer{gst::raii::Element{raw}};
   }
 
   PrimaryInfer& config_file(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "config-file-path", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "config-file-path", path);
     return *this;
   }
 
   PrimaryInfer& batch_size(std::uint32_t size) {
-    g_object_set(G_OBJECT(mElement.get()), "batch-size", static_cast<guint>(size), nullptr);
+    detail::set_property(mElement.get(), "batch-size", static_cast<guint>(size));
     return *this;
   }
 
   PrimaryInfer& unique_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "unique-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "unique-id", static_cast<guint>(id));
     return *this;
   }
 
@@ -59,7 +60,7 @@ public:
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
 
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   PrimaryInfer(PrimaryInfer&&) = default;
   PrimaryInfer& operator=(PrimaryInfer&&) = default;
@@ -78,27 +79,27 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvinfer' element"});
     }
-    g_object_set(G_OBJECT(raw), "process-mode", 2, nullptr);
+    detail::set_property(raw, "process-mode", static_cast<gint>(2));
     return SecondaryInfer{gst::raii::Element{raw}};
   }
 
   SecondaryInfer& config_file(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "config-file-path", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "config-file-path", path);
     return *this;
   }
 
   SecondaryInfer& batch_size(std::uint32_t size) {
-    g_object_set(G_OBJECT(mElement.get()), "batch-size", static_cast<guint>(size), nullptr);
+    detail::set_property(mElement.get(), "batch-size", static_cast<guint>(size));
     return *this;
   }
 
   SecondaryInfer& unique_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "unique-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "unique-id", static_cast<guint>(id));
     return *this;
   }
 
   SecondaryInfer& infer_on_id(std::uint32_t gie_id) {
-    g_object_set(G_OBJECT(mElement.get()), "infer-on-gie-id", static_cast<gint>(gie_id), nullptr);
+    detail::set_property(mElement.get(), "infer-on-gie-id", static_cast<gint>(gie_id));
     return *this;
   }
 
@@ -117,7 +118,7 @@ public:
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
 
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   SecondaryInfer(SecondaryInfer&&) = default;
   SecondaryInfer& operator=(SecondaryInfer&&) = default;
@@ -139,30 +140,30 @@ public:
     if(raw == nullptr) {
       return nonstd::make_unexpected(ElementError{ErrorKind::ElementCreation, "Failed to create 'nvinferserver' element"});
     }
-    g_object_set(G_OBJECT(raw), "process-mode", static_cast<gint>(mode), nullptr);
+    detail::set_property(raw, "process-mode", static_cast<gint>(mode));
     return InferServer{gst::raii::Element{raw}};
   }
 
   InferServer& config_file(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "config-file-path", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "config-file-path", path);
     return *this;
   }
   InferServer& batch_size(std::uint32_t size) {
-    g_object_set(G_OBJECT(mElement.get()), "batch-size", static_cast<guint>(size), nullptr);
+    detail::set_property(mElement.get(), "batch-size", static_cast<guint>(size));
     return *this;
   }
   InferServer& unique_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "unique-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "unique-id", static_cast<guint>(id));
     return *this;
   }
   InferServer& infer_on_id(std::uint32_t gie_id) {
-    g_object_set(G_OBJECT(mElement.get()), "infer-on-gie-id", static_cast<gint>(gie_id), nullptr);
+    detail::set_property(mElement.get(), "infer-on-gie-id", static_cast<gint>(gie_id));
     return *this;
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   InferServer(InferServer&&) = default;
   InferServer& operator=(InferServer&&) = default;
@@ -203,17 +204,17 @@ public:
   }
 
   Preprocess& config_file(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "config-file", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "config-file", path);
     return *this;
   }
   Preprocess& gpu_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "gpu-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "gpu-id", static_cast<guint>(id));
     return *this;
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   Preprocess(Preprocess&&) = default;
   Preprocess& operator=(Preprocess&&) = default;
@@ -252,13 +253,13 @@ public:
   }
 
   Analytics& config_file(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "config-file", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "config-file", path);
     return *this;
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   Analytics(Analytics&&) = default;
   Analytics& operator=(Analytics&&) = default;

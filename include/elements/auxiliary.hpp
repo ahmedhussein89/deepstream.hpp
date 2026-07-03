@@ -7,6 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
+#include <elements/detail.hpp>
 #include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
@@ -23,19 +24,19 @@ public:
   }
 
   SegVisual& batch_size(std::uint32_t size) {
-    g_object_set(G_OBJECT(mElement.get()), "batch-size", static_cast<guint>(size), nullptr);
+    detail::set_property(mElement.get(), "batch-size", static_cast<guint>(size));
     return *this;
   }
-  SegVisual& width(std::uint32_t w) {
-    g_object_set(G_OBJECT(mElement.get()), "width", static_cast<guint>(w), nullptr);
+  SegVisual& width(std::uint32_t val) {
+    detail::set_property(mElement.get(), "width", static_cast<guint>(val));
     return *this;
   }
-  SegVisual& height(std::uint32_t h) {
-    g_object_set(G_OBJECT(mElement.get()), "height", static_cast<guint>(h), nullptr);
+  SegVisual& height(std::uint32_t val) {
+    detail::set_property(mElement.get(), "height", static_cast<guint>(val));
     return *this;
   }
   SegVisual& gpu_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "gpu-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "gpu-id", static_cast<guint>(id));
     return *this;
   }
 
@@ -64,11 +65,11 @@ public:
   }
 
   OpticalFlow& gpu_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "gpu-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "gpu-id", static_cast<guint>(id));
     return *this;
   }
-  OpticalFlow& preset(std::uint32_t p) {
-    g_object_set(G_OBJECT(mElement.get()), "preset", static_cast<guint>(p), nullptr);
+  OpticalFlow& preset(std::uint32_t val) {
+    detail::set_property(mElement.get(), "preset", static_cast<guint>(val));
     return *this;
   }
 
@@ -97,7 +98,7 @@ public:
   }
 
   OpticalFlowVisual& gpu_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "gpu-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "gpu-id", static_cast<guint>(id));
     return *this;
   }
 
@@ -126,19 +127,19 @@ public:
   }
 
   Dewarper& config_file(std::string_view path) {
-    g_object_set(G_OBJECT(mElement.get()), "config-file", std::string(path).c_str(), nullptr);
+    detail::set_property(mElement.get(), "config-file", path);
     return *this;
   }
   Dewarper& gpu_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "gpu-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "gpu-id", static_cast<guint>(id));
     return *this;
   }
-  Dewarper& num_batch_buffers(std::uint32_t n) {
-    g_object_set(G_OBJECT(mElement.get()), "num-batch-buffers", static_cast<guint>(n), nullptr);
+  Dewarper& num_batch_buffers(std::uint32_t count) {
+    detail::set_property(mElement.get(), "num-batch-buffers", static_cast<guint>(count));
     return *this;
   }
   Dewarper& source_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "source-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "source-id", static_cast<guint>(id));
     return *this;
   }
 

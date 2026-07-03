@@ -7,6 +7,7 @@
 
 #include <nonstd/expected.hpp>
 
+#include <elements/detail.hpp>
 #include <gstreamer_raii.hpp>
 #include <utils/error.hpp>
 
@@ -32,32 +33,32 @@ public:
   }
 
   StreamMux& batch_size(std::uint32_t size) {
-    g_object_set(G_OBJECT(mElement.get()), "batch-size", static_cast<guint>(size), nullptr);
+    detail::set_property(mElement.get(), "batch-size", static_cast<guint>(size));
     return *this;
   }
 
-  StreamMux& width(std::uint32_t w) {
-    g_object_set(G_OBJECT(mElement.get()), "width", static_cast<guint>(w), nullptr);
+  StreamMux& width(std::uint32_t val) {
+    detail::set_property(mElement.get(), "width", static_cast<guint>(val));
     return *this;
   }
 
-  StreamMux& height(std::uint32_t h) {
-    g_object_set(G_OBJECT(mElement.get()), "height", static_cast<guint>(h), nullptr);
+  StreamMux& height(std::uint32_t val) {
+    detail::set_property(mElement.get(), "height", static_cast<guint>(val));
     return *this;
   }
 
   StreamMux& batched_push_timeout(std::int32_t timeout_us) {
-    g_object_set(G_OBJECT(mElement.get()), "batched-push-timeout", static_cast<gint>(timeout_us), nullptr);
+    detail::set_property(mElement.get(), "batched-push-timeout", static_cast<gint>(timeout_us));
     return *this;
   }
 
   StreamMux& live_source(bool live) {
-    g_object_set(G_OBJECT(mElement.get()), "live-source", static_cast<gboolean>(live), nullptr);
+    detail::set_property(mElement.get(), "live-source", static_cast<gboolean>(live));
     return *this;
   }
 
   StreamMux& sync_inputs(bool sync) {
-    g_object_set(G_OBJECT(mElement.get()), "sync-inputs", static_cast<gboolean>(sync), nullptr);
+    detail::set_property(mElement.get(), "sync-inputs", static_cast<gboolean>(sync));
     return *this;
   }
 
@@ -78,7 +79,7 @@ public:
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
 
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   StreamMux(StreamMux&&) = default;
   StreamMux& operator=(StreamMux&&) = default;
@@ -103,7 +104,7 @@ public:
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
 
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   VideoConverter(VideoConverter&&) = default;
   VideoConverter& operator=(VideoConverter&&) = default;
@@ -126,29 +127,29 @@ public:
   }
 
   OSD& process_mode(std::int32_t mode) {
-    g_object_set(G_OBJECT(mElement.get()), "process-mode", static_cast<gint>(mode), nullptr);
+    detail::set_property(mElement.get(), "process-mode", static_cast<gint>(mode));
     return *this;
   }
 
   OSD& display_text(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "display-text", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "display-text", static_cast<gboolean>(enable));
     return *this;
   }
 
   OSD& display_bbox(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "display-bbox", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "display-bbox", static_cast<gboolean>(enable));
     return *this;
   }
 
   OSD& display_mask(bool enable) {
-    g_object_set(G_OBJECT(mElement.get()), "display-mask", static_cast<gboolean>(enable), nullptr);
+    detail::set_property(mElement.get(), "display-mask", static_cast<gboolean>(enable));
     return *this;
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
 
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   OSD(OSD&&) = default;
   OSD& operator=(OSD&&) = default;
@@ -173,7 +174,7 @@ public:
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   StreamDemux(StreamDemux&&) = default;
   StreamDemux& operator=(StreamDemux&&) = default;
@@ -195,34 +196,34 @@ public:
     return Tiler{gst::raii::Element{raw}};
   }
 
-  Tiler& rows(std::uint32_t r) {
-    g_object_set(G_OBJECT(mElement.get()), "rows", static_cast<guint>(r), nullptr);
+  Tiler& rows(std::uint32_t num_rows) {
+    detail::set_property(mElement.get(), "rows", static_cast<guint>(num_rows));
     return *this;
   }
-  Tiler& columns(std::uint32_t c) {
-    g_object_set(G_OBJECT(mElement.get()), "columns", static_cast<guint>(c), nullptr);
+  Tiler& columns(std::uint32_t num_cols) {
+    detail::set_property(mElement.get(), "columns", static_cast<guint>(num_cols));
     return *this;
   }
-  Tiler& width(std::uint32_t w) {
-    g_object_set(G_OBJECT(mElement.get()), "width", static_cast<guint>(w), nullptr);
+  Tiler& width(std::uint32_t val) {
+    detail::set_property(mElement.get(), "width", static_cast<guint>(val));
     return *this;
   }
-  Tiler& height(std::uint32_t h) {
-    g_object_set(G_OBJECT(mElement.get()), "height", static_cast<guint>(h), nullptr);
+  Tiler& height(std::uint32_t val) {
+    detail::set_property(mElement.get(), "height", static_cast<guint>(val));
     return *this;
   }
   Tiler& batch_size(std::uint32_t size) {
-    g_object_set(G_OBJECT(mElement.get()), "batch-size", static_cast<guint>(size), nullptr);
+    detail::set_property(mElement.get(), "batch-size", static_cast<guint>(size));
     return *this;
   }
   Tiler& gpu_id(std::uint32_t id) {
-    g_object_set(G_OBJECT(mElement.get()), "gpu-id", static_cast<guint>(id), nullptr);
+    detail::set_property(mElement.get(), "gpu-id", static_cast<guint>(id));
     return *this;
   }
 
   [[nodiscard]] GstElement* get() const { return mElement.get(); }
   [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
 
   Tiler(Tiler&&) = default;
   Tiler& operator=(Tiler&&) = default;
