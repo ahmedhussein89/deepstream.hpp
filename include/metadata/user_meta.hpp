@@ -3,12 +3,11 @@
 
 // gstnvdsinfer.h has no include guards — wrap with a manual idempotency guard.
 #ifndef DEEPSTREAM_HPP_GSTNVDSINFER_INCLUDED
-#define DEEPSTREAM_HPP_GSTNVDSINFER_INCLUDED
-#include <gstnvdsinfer.h>
+#  define DEEPSTREAM_HPP_GSTNVDSINFER_INCLUDED
+#  include <gstnvdsinfer.h>
 #endif
-#include <nvdsmeta.h>
-
 #include <metadata/tensor_meta.hpp>
+#include <nvdsmeta.h>
 
 namespace ds {
 
@@ -16,7 +15,9 @@ class UserMetaView {
 public:
   explicit UserMetaView(NvDsUserMeta* meta) : meta_(meta) {}
 
-  [[nodiscard]] NvDsMetaType meta_type() const { return meta_->base_meta.meta_type; }
+  [[nodiscard]] NvDsMetaType meta_type() const {
+    return meta_->base_meta.meta_type;
+  }
 
   // Returns a TensorMetaView if this user-meta holds nvinfer tensor output.
   // Returns nullopt for any other meta type.
@@ -31,9 +32,13 @@ public:
     return TensorMetaView{tensor};
   }
 
-  [[nodiscard]] void* raw_data() const { return meta_->user_meta_data; }
+  [[nodiscard]] void* raw_data() const {
+    return meta_->user_meta_data;
+  }
 
-  [[nodiscard]] NvDsUserMeta* get() const { return meta_; }
+  [[nodiscard]] NvDsUserMeta* get() const {
+    return meta_;
+  }
 
 private:
   NvDsUserMeta* meta_;

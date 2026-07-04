@@ -4,11 +4,10 @@
 #include <string_view>
 
 #include <gst/gst.h>
-
-#include <nonstd/expected.hpp>
+#include <gstreamer_raii.hpp>
 
 #include <elements/detail.hpp>
-#include <gstreamer_raii.hpp>
+#include <nonstd/expected.hpp>
 #include <utils/error.hpp>
 
 namespace ds {
@@ -28,10 +27,16 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
 
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   FileSource(FileSource&&) = default;
   FileSource& operator=(FileSource&&) = default;
@@ -68,10 +73,16 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
 
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   RTSPSource(RTSPSource&&) = default;
   RTSPSource& operator=(RTSPSource&&) = default;
@@ -98,10 +109,16 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
 
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   CameraSource(CameraSource&&) = default;
   CameraSource& operator=(CameraSource&&) = default;
@@ -169,9 +186,15 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   UriSource(UriSource&&) = default;
   UriSource& operator=(UriSource&&) = default;
@@ -230,9 +253,15 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   MultiUriSource(MultiUriSource&&) = default;
   MultiUriSource& operator=(MultiUriSource&&) = default;
@@ -271,9 +300,15 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   V4L2Decoder(V4L2Decoder&&) = default;
   V4L2Decoder& operator=(V4L2Decoder&&) = default;

@@ -3,10 +3,10 @@
 
 #include <gst/gst.h>
 #include <gstnvdsmeta.h>
-#include <nvdsmeta.h>
 
 #include <metadata/frame_meta.hpp>
 #include <metadata/meta_list_view.hpp>
+#include <nvdsmeta.h>
 
 namespace ds {
 
@@ -28,7 +28,9 @@ public:
     return MetaListView<FrameMetaView, NvDsFrameMeta>{meta_->frame_meta_list};
   }
 
-  [[nodiscard]] NvDsBatchMeta* get() const { return meta_; }
+  [[nodiscard]] NvDsBatchMeta* get() const {
+    return meta_;
+  }
 
 private:
   NvDsBatchMeta* meta_;

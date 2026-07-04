@@ -6,5 +6,5 @@
 // Requires DeepStream SDK headers (DS_HAS_DEEPSTREAM is defined by the
 // ds::hpp CMake target when the SDK is present).
 #ifdef DS_HAS_DEEPSTREAM
-#include <metadata.hpp>
+#  include <metadata.hpp>
 #endif

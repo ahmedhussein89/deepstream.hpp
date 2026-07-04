@@ -4,11 +4,10 @@
 #include <string_view>
 
 #include <gst/gst.h>
-
-#include <nonstd/expected.hpp>
+#include <gstreamer_raii.hpp>
 
 #include <elements/detail.hpp>
-#include <gstreamer_raii.hpp>
+#include <nonstd/expected.hpp>
 #include <utils/error.hpp>
 
 namespace ds {
@@ -28,10 +27,16 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
 
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }
 
   WindowSink(WindowSink&&) = default;
   WindowSink& operator=(WindowSink&&) = default;
@@ -63,10 +68,16 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
 
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }
 
   FileSink(FileSink&&) = default;
   FileSink& operator=(FileSink&&) = default;

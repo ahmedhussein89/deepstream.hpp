@@ -4,12 +4,12 @@
 #include <vector>
 
 #include <fmt/format.h>
-#include <gst/gst.h>
 
-#include <nonstd/expected.hpp>
+#include <gst/gst.h>
+#include <gstreamer_raii.hpp>
 
 #include <core/concepts.hpp>
-#include <gstreamer_raii.hpp>
+#include <nonstd/expected.hpp>
 #include <utils/debug.hpp>
 #include <utils/error.hpp>
 
@@ -187,10 +187,10 @@ public:
   }
 
 private:
-  std::vector<GstElement*>       elements_;          // raw floating-ref pointers owned by Builder
-  std::vector<std::string>       factory_names_;     // parallel: factory name for each element
-  std::unordered_set<std::string> names_;            // for duplicate detection
-  std::string                    first_duplicate_;
+  std::vector<GstElement*> elements_;         // raw floating-ref pointers owned by Builder
+  std::vector<std::string> factory_names_;    // parallel: factory name for each element
+  std::unordered_set<std::string> names_;     // for duplicate detection
+  std::string first_duplicate_;
 };
 
 }    // namespace ds

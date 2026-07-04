@@ -27,4 +27,4 @@ inline void set_property(GstElement* elem, const char* prop, std::string_view va
   g_object_set(G_OBJECT(elem), prop, val.c_str(), nullptr);
 }
 
-}  // namespace ds::detail
+}    // namespace ds::detail

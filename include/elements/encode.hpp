@@ -4,11 +4,10 @@
 #include <string_view>
 
 #include <gst/gst.h>
-
-#include <nonstd/expected.hpp>
+#include <gstreamer_raii.hpp>
 
 #include <elements/detail.hpp>
-#include <gstreamer_raii.hpp>
+#include <nonstd/expected.hpp>
 #include <utils/error.hpp>
 
 namespace ds {
@@ -52,9 +51,15 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }
 
   H264Encoder(H264Encoder&&) = default;
   H264Encoder& operator=(H264Encoder&&) = default;
@@ -105,9 +110,15 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }
 
   H265Encoder(H265Encoder&&) = default;
   H265Encoder& operator=(H265Encoder&&) = default;
@@ -150,9 +161,15 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }
 
   RtspOutSink(RtspOutSink&&) = default;
   RtspOutSink& operator=(RtspOutSink&&) = default;
@@ -187,9 +204,15 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }
 
   FakeSink(FakeSink&&) = default;
   FakeSink& operator=(FakeSink&&) = default;

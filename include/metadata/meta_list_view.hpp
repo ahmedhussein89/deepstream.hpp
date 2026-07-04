@@ -26,7 +26,9 @@ public:
 
     explicit Iterator(NvDsMetaList* node) : node_(node) {}
 
-    View operator*() const { return View{static_cast<Native*>(node_->data)}; }
+    View operator*() const {
+      return View{static_cast<Native*>(node_->data)};
+    }
 
     Iterator& operator++() {
       node_ = node_->next;
@@ -39,8 +41,12 @@ public:
       return tmp;
     }
 
-    bool operator==(const Iterator& other) const { return node_ == other.node_; }
-    bool operator!=(const Iterator& other) const { return node_ != other.node_; }
+    bool operator==(const Iterator& other) const {
+      return node_ == other.node_;
+    }
+    bool operator!=(const Iterator& other) const {
+      return node_ != other.node_;
+    }
 
   private:
     NvDsMetaList* node_;
@@ -48,9 +54,15 @@ public:
 
   explicit MetaListView(NvDsMetaList* head) : head_(head) {}
 
-  [[nodiscard]] Iterator begin() const { return Iterator{head_}; }
-  [[nodiscard]] Iterator end() const { return Iterator{nullptr}; }
-  [[nodiscard]] bool empty() const { return head_ == nullptr; }
+  [[nodiscard]] Iterator begin() const {
+    return Iterator{head_};
+  }
+  [[nodiscard]] Iterator end() const {
+    return Iterator{nullptr};
+  }
+  [[nodiscard]] bool empty() const {
+    return head_ == nullptr;
+  }
 
 private:
   NvDsMetaList* head_;

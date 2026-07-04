@@ -4,17 +4,16 @@
 #include <string_view>
 
 #include <gst/gst.h>
-
-#include <nonstd/expected.hpp>
+#include <gstreamer_raii.hpp>
 
 #include <elements/detail.hpp>
-#include <gstreamer_raii.hpp>
+#include <nonstd/expected.hpp>
 #include <utils/error.hpp>
 
 namespace ds {
 
 struct NvInferConfig {
-  std::string   config_file_path;
+  std::string config_file_path;
   std::uint32_t batch_size{1};
   std::uint32_t unique_id{1};
 };
@@ -57,10 +56,16 @@ public:
     return result;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
 
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   PrimaryInfer(PrimaryInfer&&) = default;
   PrimaryInfer& operator=(PrimaryInfer&&) = default;
@@ -115,10 +120,16 @@ public:
     return result;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
 
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   SecondaryInfer(SecondaryInfer&&) = default;
   SecondaryInfer& operator=(SecondaryInfer&&) = default;
@@ -161,9 +172,15 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   InferServer(InferServer&&) = default;
   InferServer& operator=(InferServer&&) = default;
@@ -176,7 +193,7 @@ private:
 };
 
 struct PreprocessConfig {
-  std::string   config_file;
+  std::string config_file;
   std::uint32_t gpu_id{0};
 };
 
@@ -190,8 +207,7 @@ public:
     return Preprocess{gst::raii::Element{raw}};
   }
 
-  [[nodiscard]] static nonstd::expected<Preprocess, ElementError> create(const PreprocessConfig& cfg,
-                                                                         std::string_view name = {}) {
+  [[nodiscard]] static nonstd::expected<Preprocess, ElementError> create(const PreprocessConfig& cfg, std::string_view name = {}) {
     auto result = create(name);
     if(!result) {
       return result;
@@ -212,9 +228,15 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   Preprocess(Preprocess&&) = default;
   Preprocess& operator=(Preprocess&&) = default;
@@ -240,8 +262,7 @@ public:
     return Analytics{gst::raii::Element{raw}};
   }
 
-  [[nodiscard]] static nonstd::expected<Analytics, ElementError> create(const AnalyticsConfig& cfg,
-                                                                        std::string_view name = {}) {
+  [[nodiscard]] static nonstd::expected<Analytics, ElementError> create(const AnalyticsConfig& cfg, std::string_view name = {}) {
     auto result = create(name);
     if(!result) {
       return result;
@@ -257,9 +278,15 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   Analytics(Analytics&&) = default;
   Analytics& operator=(Analytics&&) = default;

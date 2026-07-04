@@ -4,11 +4,10 @@
 #include <string_view>
 
 #include <gst/gst.h>
-
-#include <nonstd/expected.hpp>
+#include <gstreamer_raii.hpp>
 
 #include <elements/detail.hpp>
-#include <gstreamer_raii.hpp>
+#include <nonstd/expected.hpp>
 #include <utils/error.hpp>
 
 namespace ds {
@@ -17,9 +16,9 @@ struct StreamMuxConfig {
   std::uint32_t batch_size{1};
   std::uint32_t width{1920};
   std::uint32_t height{1080};
-  std::int32_t  batched_push_timeout{-1};
-  bool          live_source{false};
-  bool          sync_inputs{false};
+  std::int32_t batched_push_timeout{-1};
+  bool live_source{false};
+  bool sync_inputs{false};
 };
 
 class StreamMux {
@@ -76,10 +75,16 @@ public:
     return result;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
 
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   StreamMux(StreamMux&&) = default;
   StreamMux& operator=(StreamMux&&) = default;
@@ -101,10 +106,16 @@ public:
     return VideoConverter{gst::raii::Element{raw}};
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
 
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   VideoConverter(VideoConverter&&) = default;
   VideoConverter& operator=(VideoConverter&&) = default;
@@ -146,10 +157,16 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
 
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   OSD(OSD&&) = default;
   OSD& operator=(OSD&&) = default;
@@ -172,9 +189,15 @@ public:
     return StreamDemux{gst::raii::Element{raw}};
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   StreamDemux(StreamDemux&&) = default;
   StreamDemux& operator=(StreamDemux&&) = default;
@@ -221,9 +244,15 @@ public:
     return *this;
   }
 
-  [[nodiscard]] GstElement* get() const { return mElement.get(); }
-  [[nodiscard]] GstElement* release() { return mElement.release(); }
-  operator bool() const { return static_cast<bool>(mElement); }  // NOLINT(google-explicit-constructor)
+  [[nodiscard]] GstElement* get() const {
+    return mElement.get();
+  }
+  [[nodiscard]] GstElement* release() {
+    return mElement.release();
+  }
+  operator bool() const {
+    return static_cast<bool>(mElement);
+  }    // NOLINT(google-explicit-constructor)
 
   Tiler(Tiler&&) = default;
   Tiler& operator=(Tiler&&) = default;
